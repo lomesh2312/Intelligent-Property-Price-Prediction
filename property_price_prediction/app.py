@@ -10,11 +10,11 @@ st.title("🏠 Intelligent Property Price Prediction System")
 
 st.header("Enter Property Details")
 
-area = st.number_input("Area (sq ft)", min_value=1650, max_value=16200, placeholder="Enter area in sq ft greater than 1650")
-bedrooms = st.number_input("Bedrooms", min_value=1, max_value=6, placeholder="Enter number of bedrooms (1-6)")
-bathrooms = st.number_input("Bathrooms", min_value=1, max_value=4, placeholder="Enter number of bathrooms (1-4)")
-stories = st.number_input("Stories", min_value=1, max_value=4, placeholder="Enter number of stories (1-4)")
-parking = st.number_input("Parking Spaces", min_value=0, max_value=3, placeholder="Enter number of parking spaces (0-3)")
+area = st.number_input("Area (sq ft)", min_value=1650, max_value=16200, value=None, placeholder="Enter area in sq ft greater than 1650")
+bedrooms = st.number_input("Bedrooms", min_value=1, max_value=6, value=None, placeholder="Enter number of bedrooms (1-6)")
+bathrooms = st.number_input("Bathrooms", min_value=1, max_value=4, value=None, placeholder="Enter number of bathrooms (1-4)")
+stories = st.number_input("Stories", min_value=1, max_value=4, value=None, placeholder="Enter number of stories (1-4)")
+parking = st.number_input("Parking Spaces", min_value=0, max_value=3, value=None,  placeholder="Enter number of parking spaces (0-3)")
 
 guestroom = st.selectbox(
     "Guest Room",
