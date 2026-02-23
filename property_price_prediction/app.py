@@ -2,9 +2,10 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load model
-model, model_name = joblib.load("model/best_house_price_model.pkl")
+import os
 
+model_path = os.path.join(os.path.dirname(__file__), "model", "best_house_price_model.pkl")
+model, model_name = joblib.load(model_path)
 st.title("🏠 Intelligent Property Price Prediction System")
 
 st.header("Enter Property Details")
