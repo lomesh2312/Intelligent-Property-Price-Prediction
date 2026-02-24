@@ -1,0 +1,138 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\usepackage[numbers]{natbib}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{booktabs}
+\usepackage{listings}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  captionpos=b
+}
+
+\begin{document}
+
+\title{Intelligent Property Price Prediction System\\(Milestone 1 Report)}
+
+\author{
+\IEEEauthorblockN{Neural  Hackers}
+\IEEEauthorblockA{Real Estate Analytics Project}
+}
+
+\maketitle
+
+\begin{abstract}
+This report presents a machine learning system for residential property price prediction implemented in the repository \texttt{lomesh2312/Intelligent-Property-Price-Prediction}. The project trains and compares Linear Regression, Decision Tree Regressor, and Random Forest Regressor models on the Kaggle Housing dataset. The best model is selected using RMSE and deployed through a Streamlit interface for interactive prediction. The final system satisfies Milestone 1 requirements for supervised learning, evaluation, and user-facing prediction.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Property price prediction, real estate analytics, regression, Streamlit, machine learning.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Accurate property valuation is essential for buyers, sellers, and investors. Manual estimation is often subjective and may ignore important feature interactions. This project develops a data-driven property valuation pipeline using supervised regression models trained on historical housing data. The system is exposed through a web interface where users enter property features and receive instant predicted prices.
+
+\section{Problem Statement}
+Given structured housing attributes (e.g., area, bedrooms, bathrooms, amenities, and furnishing status), predict the market price of a property. The system should select a strong-performing regression model and provide a practical interface for end users.
+
+\section{Dataset and Inputs}
+\subsection{Dataset}
+The implementation uses the Kaggle Housing Prices dataset (\texttt{Housing.csv}) \cite{kaggle_housing}. The target column is \texttt{price}.
+
+\subsection{Input Features}
+The training script uses the following engineered features:
+\begin{lstlisting}[language={}]
+area, bedrooms, guestroom, bathrooms,
+mainroad, prefarea, stories, parking,
+basement, airconditioning,
+furnishingstatus_semi-furnished,
+furnishingstatus_unfurnished
+\end{lstlisting}
+
+\subsection{Output}
+The model outputs a predicted numeric property price. The UI additionally displays the selected best model name.
+
+\section{Methodology}
+\subsection{Preprocessing}
+The pipeline in \texttt{train\_model.py} performs:
+\begin{itemize}
+  \item Binary mapping for yes/no columns: \texttt{mainroad}, \texttt{guestroom}, \texttt{basement}, \texttt{airconditioning}, \texttt{prefarea}.
+  \item One-hot encoding of \texttt{furnishingstatus} with drop-first.
+\end{itemize}
+
+\subsection{Models}
+Three supervised regressors are trained \cite{sklearn,breiman2001}:
+\begin{itemize}
+  \item Linear Regression
+  \item Decision Tree Regressor
+  \item Random Forest Regressor (200 trees)
+\end{itemize}
+
+\subsection{Training and Selection}
+Data is split with 80:20 train-test partition (\texttt{random\_state=42}). Each model is evaluated on test data with RMSE, and the best model is selected by minimum RMSE. The selected model and its name are saved using Joblib:
+\begin{lstlisting}[language=Python]
+joblib.dump((best_model, best_model_name),
+            "model/best_house_price_model.pkl")
+\end{lstlisting}
+
+\section{Results}
+The repository README reports the following example performance:
+\begin{table}[ht]
+\centering
+\caption{Model Performance (Repository Reported)}
+\begin{tabular}{lcc}
+\toprule
+Model & RMSE & $R^2$ \\
+\midrule
+Linear Regression & 1,347,778.29 & 0.6406 \\
+Decision Tree & 1,754,528.50 & 0.3910 \\
+Random Forest & 1,409,390.67 & 0.6070 \\
+\bottomrule
+\end{tabular}
+\label{tab:results}
+\end{table}
+
+Based on RMSE, Linear Regression is selected as the final deployed model in this implementation.
+
+\section{System Interface and Deployment}
+\subsection{Streamlit Interface}
+The application (\texttt{property\_price\_prediction/app.py}) provides an input form for property attributes and validates required user selections before inference. Predicted price and selected model name are displayed after submission.
+
+\subsection{Deployment}
+The project is publicly deployed at:
+\begin{center}
+\textbf{\url{https://intelligent-property-price-prediction.streamlit.app/}}
+\end{center}
+
+\section{Repository Information}
+Source repository:
+\begin{center}
+\textbf{\url{https://github.com/lomesh2312/Intelligent-Property-Price-Prediction}}
+\end{center}
+
+Main structure:
+\begin{lstlisting}[language={}]
+Intelligent-Property-Price-Prediction/
+|- README.md
+|- property_price_prediction/
+|  |- app.py
+|  |- train_model.py
+|  |- requirements.txt
+|  |- model/
+|     |- best_house_price_model.pkl
+\end{lstlisting}
+
+\section{Conclusion}
+This project delivers a working Milestone 1 property price prediction system with supervised regression, basic preprocessing, model comparison, persisted artifact, and public Streamlit deployment. It provides a practical baseline for extending into an agentic advisory system in subsequent milestones.
+
+\bibliographystyle{IEEEtranN}
+\bibliography{references}
+
+\end{document}
