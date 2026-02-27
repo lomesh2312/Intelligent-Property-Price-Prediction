@@ -84,8 +84,8 @@ if st.button("Predict Price"):
 
     input_data = pd.DataFrame([input_dict])
 
-    input_data = input_data[top_features]
-
+    input_data = pd.get_dummies(input_data)
+    input_data = input_data.reindex(columns=top_features, fill_value=0)
     prediction = model.predict(input_data)[0]
 
     st.success(f"💰 Predicted Price: ₹ {round(prediction, 2)}")

@@ -11,19 +11,16 @@ from sklearn.metrics import mean_squared_error
 
 df = pd.read_csv("data/Housing.csv")
 
+df.columns = df.columns.str.strip()
 
-binary_columns = [
-    "mainroad",
-    "guestroom",
-    "basement",
-    "airconditioning",
-    "prefarea"
-]
 
-for col in binary_columns:
-    df[col] = df[col].map({"yes": 1, "no": 0})
+object_cols = df.select_dtypes(include=["object"]).columns
+df[object_cols] = df[object_cols].apply(lambda x: x.str.strip().str.lower())
 
-df = pd.get_dummies(df, columns=["furnishingstatus"], drop_first=True)
+
+df = pd.get_dummies(df, drop_first=True)
+
+df = df.dropna()
 
 X = df.drop("price", axis=1)
 y = df["price"]
@@ -38,9 +35,6 @@ feature_importance_df = pd.DataFrame({
     "Feature": feature_names,
     "Importance": importances
 }).sort_values(by="Importance", ascending=False)
-
-print("Feature Importance:\n", feature_importance_df)
-
 
 top_features = feature_importance_df["Feature"].head(8).values
 X = X[top_features]
@@ -75,7 +69,9 @@ best_model = models[best_model_name]
 
 print("Best Model:", best_model_name)
 
+joblib.dump(
+    (best_model, best_model_name, top_features),
+    "model/best_house_price_model.pkl"
+)
 
-joblib.dump((best_model, best_model_name, top_features),
-            "model/best_house_price_model.pkl")
 print("Model saved successfully!")
