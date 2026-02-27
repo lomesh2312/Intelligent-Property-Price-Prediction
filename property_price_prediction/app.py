@@ -67,21 +67,24 @@ if st.button("Predict Price"):
     semi = 1 if furnishingstatus == "semi-furnished" else 0
     unfurnished = 1 if furnishingstatus == "unfurnished" else 0
 
-    input_data = pd.DataFrame([{
-        "area": area,
-        "bedrooms": bedrooms,
-        "guestroom": 1 if guestroom == "Yes" else 0,
-        "bathrooms": bathrooms,
-        "mainroad": 1 if mainroad == "Yes" else 0,
-        "prefarea": 1 if prefarea == "Yes" else 0,
-        "stories": stories,
-        "parking": parking,
-        "basement": 1 if basement == "Yes" else 0,
-        "airconditioning": 1 if airconditioning == "Yes" else 0,
-        "furnishingstatus_semi-furnished": semi,
-        "furnishingstatus_unfurnished": unfurnished
-    }])
+    input_dict = {
+    "area": area,
+    "bedrooms": bedrooms,
+    "guestroom": 1 if guestroom == "Yes" else 0,
+    "bathrooms": bathrooms,
+    "mainroad": 1 if mainroad == "Yes" else 0,
+    "prefarea": 1 if prefarea == "Yes" else 0,
+    "stories": stories,
+    "parking": parking,
+    "basement": 1 if basement == "Yes" else 0,
+    "airconditioning": 1 if airconditioning == "Yes" else 0,
+    "furnishingstatus_semi-furnished": semi,
+    "furnishingstatus_unfurnished": unfurnished
+}
 
+input_data = pd.DataFrame([input_dict])
+
+input_data = input_data[top_features]
     prediction = model.predict(input_data)[0]
 
     st.success(f"💰 Predicted Price: ₹ {round(prediction, 2)}")
