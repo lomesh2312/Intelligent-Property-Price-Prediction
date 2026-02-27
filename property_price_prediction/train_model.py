@@ -76,5 +76,6 @@ best_model = models[best_model_name]
 print("Best Model:", best_model_name)
 
 
-joblib.dump((best_model, best_model_name), "model/best_house_price_model.pkl")
+joblib.dump((best_model, best_model_name, top_features),
+            "model/best_house_price_model.pkl")
 print("Model saved successfully!")
