@@ -82,10 +82,10 @@ if st.button("Predict Price"):
     "furnishingstatus_unfurnished": unfurnished
 }
 
-input_data = pd.DataFrame([input_dict])
-
-input_data = input_data[top_features]
-    prediction = model.predict(input_data)[0]
+    input_data = pd.DataFrame([input_dict])
+    
+    input_data = input_data[top_features]
+        prediction = model.predict(input_data)[0]
 
     st.success(f"💰 Predicted Price: ₹ {round(prediction, 2)}")
     st.info(f"📊 Model Used: {model_name}")
