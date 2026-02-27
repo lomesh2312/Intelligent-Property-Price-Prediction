@@ -5,7 +5,7 @@ import joblib
 import os
 
 model_path = os.path.join(os.path.dirname(__file__), "model", "best_house_price_model.pkl")
-model, model_name = joblib.load(model_path)
+model, model_name, top_features = joblib.load(model_path)
 st.title("🏠 Intelligent Property Price Prediction System")
 
 st.header("Enter Property Details")
@@ -83,9 +83,10 @@ if st.button("Predict Price"):
 }
 
     input_data = pd.DataFrame([input_dict])
-    
+
     input_data = input_data[top_features]
-        prediction = model.predict(input_data)[0]
+
+    prediction = model.predict(input_data)[0]
 
     st.success(f"💰 Predicted Price: ₹ {round(prediction, 2)}")
     st.info(f"📊 Model Used: {model_name}")
