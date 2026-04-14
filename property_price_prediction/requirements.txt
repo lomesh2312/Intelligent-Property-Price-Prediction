@@ -3,3 +3,13 @@ pandas
 numpy
 scikit-learn==1.8.0
 joblib
+python-dotenv
+langchain
+langchain-groq
+python-dotenv
+faiss-cpu
+sentence-transformers
+fastapi
+uvicorn
+langchain-community
+langchain-text-splitters
