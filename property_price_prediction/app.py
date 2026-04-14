@@ -12,7 +12,7 @@ load_dotenv()
 
 @st.cache_resource
 def load_rag():
-    return RAGEngine("data/real_estate_knowledge.txt")
+    return RAGEngine("property_price_prediction/data/real_estate_knowledge.txt")
 
 rag = load_rag()
 
